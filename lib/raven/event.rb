@@ -41,6 +41,7 @@ module Raven
       @logger = options[:logger] || 'root'
       @culprit = options[:culprit]
       @server_name = options[:server_name] || @configuration.server_name || get_hostname
+      @project = @configuration.project_id
 
       options[:modules] ||= get_modules if @configuration.send_modules
 
