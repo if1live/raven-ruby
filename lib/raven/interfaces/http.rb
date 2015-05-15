@@ -39,6 +39,19 @@ module Raven
         end
       end
 
+      # overwrite ip address (for proxy)
+      # sentry use REMOTE_ADDR as ip address. overwrite it.
+      env_table = {}
+      env.each_pair do |key, value|
+        env_table[key.to_s] = value
+      end
+
+      if env_table.include? 'HTTP_X_FORWARDED_FOR'
+        self.env['REMOTE_ADDR'] = env_table['HTTP_X_FORWARDED_FOR']
+      elsif env_table.include? 'REMOTE_ADDR'
+        self.env['REMOTE_ADDR'] = env_table['REMOTE_ADDR']
+      end
+
       self.data =
         if req.form_data?
           req.POST
