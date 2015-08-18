@@ -86,7 +86,10 @@ describe Raven::Rack do
     end
 
     stack = Raven::Rack.new(Rack::Lint.new(app))
-    expect { stack.call(env) }.to_not raise_error(Rack::Lint::LintError)
+    # expect { stack.call(env) }.not_to raise_error(Rack::Lint::LintError)
+    # `expect { }.not_to raise_error(SpecificErrorClass)` is not valid,
+    # use `expect { }.not_to raise_error` (with no args) instead
+    expect { stack.call(env) }.not_to raise_error
   end
 
 end
